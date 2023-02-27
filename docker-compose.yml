@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v2.9
+    ports:
+      - 80:80
+    networks:
+      - default
+      - traefik-public
+    volumes:
+      - ./traefik/local/traefik.yml:/etc/traefik/traefik.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)
+      - traefik.http.routers.dashboard.service=api@internal
+
+networks:
+  traefik-public:
+    external: true
