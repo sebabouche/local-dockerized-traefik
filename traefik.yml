@@ -1,3 +1,6 @@
+global:
+  sendAnonymousUsage: true
+
 entryPoints:
   web:
     address: :80
@@ -14,3 +17,4 @@ log:
 providers:
   docker:
     exposedByDefault: false
+    network: traefik-public

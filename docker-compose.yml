@@ -5,16 +5,16 @@ services:
     image: traefik:v2.9
     ports:
       - 80:80
-    networks:
-      - default
-      - traefik-public
     volumes:
-      - ./traefik/local/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - traefik.enable=true
-      - traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)
+      - traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_SUBDOMAIN?Not set}.${TOP_LVL_DOMAIN?Not set}`)
       - traefik.http.routers.dashboard.service=api@internal
+    networks:
+      - default
+      - traefik-public
 
 networks:
   traefik-public:
